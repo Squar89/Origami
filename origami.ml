@@ -12,7 +12,12 @@ let prostokat p1 p2 =
         else 0
 ;;
 let kolko p r =
-
+    let xo = fst p in
+    let yo = fst p in
+    let square n = n * n in
+    fun (x, y) ->
+        if square (x -. xo) +. square (y -. yo) <= square r then 1
+        else 0
 ;;
 
 let zloz p1 p2 k = fun (x, y) -> 1
