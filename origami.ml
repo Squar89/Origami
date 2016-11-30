@@ -50,17 +50,17 @@ let zloz p1 p2 k =
     (* funkcja znajdująca prostą przechodzącą przez punkty p1 i p2 *)
     (* zwraca parę (a, b) z postaci y = ax + b *)
     let find_ln (x1, y1) (x2, y2) =
-        let a = (y2 -. y1) /. (x2 -. x1) in
-        a, ((-1.) *. x1 *. a) +. y1
+        ((y2 -. y1) /. (x2 -. x1),
+        ((-1.) *. x1 *. (y2 -. y1) /. (x2 -. x1)) +. y1)
     (* funkcja znajdująca prostą prostopadłą do poprzedniej prostej *)
     (* również zwraca parę (a, b) z postaci y = ax +b *)
     and find_lnp a (x, y) =
         (-1.) /. a, (x /. a) +. y
     (* funkcja znajdująca punkt przecięcia dwóch poprzednich prostych *)
     (* zwraca parę (x, y) czyli współrzędne punktu *)
-    and find_d (a1, b1) (a2, b2) = 
-        let a = (b2 -. b1) /. (a1 -. a2) in
-        a, (a1 *. a) +. b1
+    let find_d (a1, b1) (a2, b2) =
+        ((b2 -. b1) /. (a1 -. a2),
+        (a1 *. (b2 -. b1) /. (a1 -. a2)) +. b1)
     (* funkcja znajdująca punkt symetryczny do danego punktu względem
     prostej przechodzącej przez punkty p1 i p2 *)
     (* zwraca parę (x, y) czyli współrzędne punktu *)
