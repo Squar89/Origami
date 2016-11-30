@@ -37,9 +37,9 @@ let prostokat p1 p2 =
 (* funkcja zwracająca kartkę w kształcie koła o
 środku w punkcie p i promieniu r *)
 let kolko p r =
-    let xo = fst p in
-    let yo = fst p in
-    let square n = n *. n in
+    let xo = fst p
+    and yo = snd p
+    and square n = n *. n in
     fun (x, y) ->
         if square (x -. xo) +. square (y -. yo) <=. square r then 1
         else 0
@@ -51,60 +51,59 @@ let zloz p1 p2 k =
     (* zwraca parę (a, b) z postaci y = ax + b *)
     let find_ln (x1, y1) (x2, y2) =
         ((y2 -. y1) /. (x2 -. x1),
-        ((-1.) *. x1 *. (y2 -. y1) /. (x2 -. x1)) +. y1) in
+        ((-1.) *. x1 *. (y2 -. y1) /. (x2 -. x1)) +. y1)
     (* funkcja znajdująca prostą prostopadłą do poprzedniej prostej *)
     (* również zwraca parę (a, b) z postaci y = ax +b *)
-    let find_lnp a (x, y) =
-        ((-1.) /. a, (x *. 1. /. a) +. y) in
+    and find_lnp a (x, y) =
+        (-1.) /. a, (x /. a) +. y
     (* funkcja znajdująca punkt przecięcia dwóch poprzednich prostych *)
     (* zwraca parę (x, y) czyli współrzędne punktu *)
-    let find_d (a1, b1) (a2, b2) = 
+    let find_d (a1, b1) (a2, b2) =
         ((b2 -. b1) /. (a1 -. a2),
-        (a1 *. (b2 -. b1) /. (a1 -. a2)) +. b1) in
+        (a1 *. (b2 -. b1) /. (a1 -. a2)) +. b1)
     (* funkcja znajdująca punkt symetryczny do danego punktu względem
     prostej przechodzącej przez punkty p1 i p2 *)
     (* zwraca parę (x, y) czyli współrzędne punktu *)
-    let find_s (xc, yc) (xd, yd) =
+    and find_s (xc, yc) (xd, yd) =
         ((2. *. xd) -. xc, (2. *. yd) -. yc) in
     (* funkcja pomocnicza znajdująca punkt symetryczny*)
     let symmetry (x, y) =
         if fst p1 =. fst p2 || snd p1 =. snd p2 then
             if fst p1 =. fst p2 then
                 find_s (x, y) (fst p1, y)
-            else find_s (x, y) (x, snd p1)
+            else 
+                find_s (x, y) (x, snd p1)
         else
             let ln = find_ln p1 p2 in
             let lnp = find_lnp (fst ln) (x, y) in
             let d = find_d ln lnp in
             find_s (x, y) d
-        in
     (* funkcja określająca pozycję punktu p3 względem
     prostej wyznaczonej przez punkty p1 i p2 *)
     (* det > 0 - p3 znajduje się na lewo od prostej p1 p2 *)
     (* det = 0 - p3 znajduje się na prostej p1 p2 *)
     (* det < 0 - p3 znajduje się na prawo od prostej p1 p2 *)
-    let position p1 p2 p3 =
-        let x1 = fst p1 and y1 = snd p1 in
-        let x2 = fst p2 and y2 = snd p2 in
-        let x3 = fst p3 and y3 = snd p3 in
+    and position p1 p2 p3 =
+        let x1 = fst p1 and y1 = snd p1
+        and x2 = fst p2 and y2 = snd p2
+        and x3 = fst p3 and y3 = snd p3 in
         let det =
             (x1 *. y2) +. (x2 *. y3) +. (x3 *. y1)
             -. (y1 *. x2) -. (y2 *. x3) -. (y3 *. x1) in
         if det =. 0. then 0
         else if det >=. 0. then 1
         else -1
-        in
+    in
     (* funkcja zwracająca ilość przebić *)
-    fun (x, y) ->
-        match position p1 p2 (x, y) with
+    fun p ->
+        match position p1 p2 p with
         | -1 -> 0
-        | 0 -> k (x, y)
-        | _ -> k (x, y) + k (symmetry (x, y))
+        | 0 -> k p
+        | _ -> k p + k (symmetry p)
 ;;
 
 let skladaj pl k =
-    List.fold_left (fun krt (x, y) ->
-        zloz x y krt) k pl
+    List.fold_left (fun krt (x, y) -> zloz x y krt) k pl
 ;;
 
 (*
