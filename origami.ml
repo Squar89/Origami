@@ -58,7 +58,7 @@ let zloz p1 p2 k =
         (-1.) /. a, (x /. a) +. y
     (* funkcja znajdująca punkt przecięcia dwóch poprzednich prostych *)
     (* zwraca parę (x, y) czyli współrzędne punktu *)
-    let find_d (a1, b1) (a2, b2) =
+    and find_d (a1, b1) (a2, b2) =
         ((b2 -. b1) /. (a1 -. a2),
         (a1 *. (b2 -. b1) /. (a1 -. a2)) +. b1)
     (* funkcja znajdująca punkt symetryczny do danego punktu względem
