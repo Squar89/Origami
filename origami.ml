@@ -27,8 +27,8 @@ let (=.) x y =
 (* funkcja zwracająca kartkę w kształcie prostokątu o
 lewym dolnym rogu w punkcie p1 oraz prawym górnym rogu w punkie p2 *)
 let prostokat p1 p2 =
-    let xl = fst p1 and yl = snd p1 in
-    let xr = fst p2 and yr = snd p2 in
+    let xl = fst p1 and yl = snd p1
+    and xr = fst p2 and yr = snd p2 in
     fun (x, y) ->
         if x >=. xl && x <=. xr && y >=. yl && y <=. yr then 1
         else 0
